@@ -1,0 +1,6 @@
+{# Email d'activation de compte #}
+
+<h1>Activation de votre compte adhérent</h1>
+<p>Vous avez créé un compte sur notre site, veuillez cliquer sur le lien ci-dessous pour l'activer.</p>
+{# Lien vers la route d'activation avec une url absolue avec le token en paramètre #}
+<p><a href="{{ absolute_url(path('activation', {'token': token})) }}">Activer mon compte</a></p>

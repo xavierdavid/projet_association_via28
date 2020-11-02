@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block mainTitle %} Inscription adhérent {% endblock %}
+
+{% block body %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    {# Affichage du formulaire d'inscription #}
+    <section class="container mediumFormSize">
+        {{ form_start(registrationForm) }}
+            <div class="row p-2">
+                <div class="col-12 col-md-6">
+                    {{ form_row(registrationForm.last_name, {label: 'Nom'})}}
+                    {{ form_row(registrationForm.first_name, {label: 'Prénom'}) }}
+                    {{ form_row(registrationForm.address, {label: 'Adresse'}) }}
+                    {{ form_row(registrationForm.phone, {label: 'Téléphone'}) }}
+                    {{ form_row(registrationForm.rgpd_validation, {label: 'Validation RGPD concernant l\'utilisation de vos données'}) }}
+                </div>
+                <div class="col">
+                    {{ form_row(registrationForm.email, {label: 'Email'}) }}
+                    {{ form_row(registrationForm.plainPassword) }}
+                    <button type="submit" class="btn btn-secondary">S'inscrire</button>
+                </div>
+            </div>
+        {{ form_end(registrationForm) }}
+    </section>
+{% endblock %}

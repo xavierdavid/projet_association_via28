@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Identification{% endblock %}
+
+{% block mainTitle %}Identification adhérent{% endblock %}
+
+{% block body %}
+
+    {# Affichage du formulaire de connexion #}
+    <section class="container mediumFormSize">
+        <div class="row p-2">
+            <div class="col-12 col-md-6 m-auto">
+                <form method="post">
+                    {# Affichage des messages d'erreur du formulaire #}
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    {# Affichage des messages flash #}
+                    {% for message in app.flashes('message') %}
+                        <div class="alert alert-success text-center" role="alert">{{message}}</div>
+                    {% endfor %}
+                    {% for message in app.flashes('warning') %}
+                        <div class="alert alert-warning text-center" role="alert">{{message}}</div>
+                    {% endfor %}
+                    {% for message in app.flashes('danger') %}
+                        <div class="alert alert-danger text-center" role="alert">{{message}}</div>
+                    {% endfor %}
+
+                    {# Affichage du message de connexion de l'utilisateur #}
+                    {% if app.user %}
+                        <div class="mb-3">
+                            Vous êtes connecté avec le nom d'utilisateur {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                        </div>
+                    {% endif %}
+
+                    {# Affichage des champs du formulaire de login de l'utilisateur #}
+                    <h2 class="h3 mb-3 font-weight-normal">Se connecter</h2>
+                    <label for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mb-2" placeholder="Veuillez saisir votre email" required autofocus>
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control mb-2" placeholder="Veuillez saisir votre mot de passe" required>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    {# Remember me #}
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                        </label>
+                    </div>
+                    
+                    {# Lien vers la route du formulaire de mot de passe oublié #}
+                    <p><a href="{{path('app_forgotten_password')}}" class="badge badge-light">Mot de passe oublié...</a></p>
+                    
+                    <button class="btn btn-md btn-secondary mt-4" type="submit">Valider</button>
+                </form>
+            </div>
+        </div> 
+    </section>       
+{% endblock %}

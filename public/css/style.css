@@ -1,0 +1,24 @@
+/* Taille des images */
+.largeSizeImage {
+    width: 200px;
+}
+
+.mediumSizeImage {
+    max-width: 100px;
+}
+
+.smallSizeImage {
+    max-width: 60px;
+}
+
+/* Taille des cards */
+.card {
+    max-width: 20rem;
+    height: 35rem;
+}
+
+/* Taille des formulaires */
+.mediumFormSize {
+    margin: auto;
+    max-width: 80%;
+}

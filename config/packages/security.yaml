@@ -1,23 +1,52 @@
 security:
+    # Configuration de l'encodage des mots de passe des utilisateurs
     encoders:
+        # Entité concernée par l'encodage
         App\Entity\User:
+            # Algorithme utilisé
             algorithm: auto
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    
+    # Configuration du provider : localisation des données utilisateurs pour l'authentification
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
+        # Le provider utilise l'entité User et sa propriété unique 'email' pour l'authentification
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: email
+    
+    # Configuration des firewalls : mode de sécurisation des différentes parties du site
     firewalls:
+        # Firewall pour le développement
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        
         main:
             anonymous: true
             lazy: true
             provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\UserAuthenticator
+            
+            # Pour quitter l'espace d'administration, on utilise un logout 
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+            
+            # Générer un cookie pour se souvenir des identifiants de l'utilisateur
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
+                # by default, the feature is enabled by checking a
+                # checkbox in the login form (see below), uncomment the
+                # following line to always enable it.
+                always_remember_me: true
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

@@ -2,12 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(fields={"email"}, message="Un autre utilisateur est déjà inscrit avec cette adresse email, merci de la modifier.")
  */
 class User implements UserInterface
 {
@@ -20,6 +27,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(message = "Votre email '{{ value }}' n'est pas valide.")
      */
     private $email;
 
@@ -27,7 +35,7 @@ class User implements UserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
-
+    
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
@@ -36,11 +44,15 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Vous devez renseigner votre prénom")
+     * @Assert\Length(min=3,max=20,minMessage="Votre prénom doit comporter au minimum 3 caractères.", maxMessage="Votre prénom doit comporter au maximum 20 caractères.")
      */
     private $first_name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Vous devez renseigner votre nom de famille")
+     * @Assert\Length(min=2,max=20,minMessage="Votre nom de famille doit comporter au minimum 2 caractères.", maxMessage="Votre nom doit comporter au maximum 20 caractères.")
      */
     private $last_name;
 
@@ -51,6 +63,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex("#^0[1-68][0-9]{8}$#",message="Le numéro de téléphone doit comporter 10 chiffres")
      */
     private $phone;
 
@@ -73,6 +86,22 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $rgpd_validation = false;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $posts;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reset_token;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -107,7 +136,7 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+        // Affecte par défaut à chaque utilisateur le rôle ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -244,6 +273,65 @@ class User implements UserInterface
     public function setRgpdValidation(bool $rgpd_validation): self
     {
         $this->rgpd_validation = $rgpd_validation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts[] = $post;
+            $post->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): self
+    {
+        if ($this->posts->contains($post)) {
+            $this->posts->removeElement($post);
+            // set the owning side to null (unless already changed)
+            if ($post->getUser() === $this) {
+                $post->setUser(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Callback qui permet d'initialiser automatiquement le slug de l'utilisateur à partir du firstName et du lastName de l'utilisateur à l'aide du cycle de vie de l'entité !
+     * 
+     * @ORM\PrePersist 
+     * @ORM\PreUpdate
+     * @return void
+     */
+    public function initializeSlug() {
+        // Si le slug est vide 
+        if(empty($this->slug)) {
+            // On créée une instance de la classe Slugify (librairie Cocur/Slugify)
+            $slugify = new Slugify();
+            // Le slug de l'utilisateur est défini automatiquement à partir du firstName et du lastName de l'utilisateur grâce à la méthode slugify de l'instance de notre classe Slugify
+            $this->slug = $slugify->slugify($this->first_name . ' ' . $this->last_name);
+        }
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->reset_token;
+    }
+
+    public function setResetToken(?string $reset_token): self
+    {
+        $this->reset_token = $reset_token;
 
         return $this;
     }
