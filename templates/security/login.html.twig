@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'security/base.html.twig' %}
 
 {% block title %}Identification{% endblock %}
 
@@ -52,6 +52,9 @@
                     
                     {# Lien vers la route du formulaire de mot de passe oublié #}
                     <p><a href="{{path('app_forgotten_password')}}" class="badge badge-light">Mot de passe oublié...</a></p>
+                    
+                    {# Lien vers la route du formulaire d'inscription #}
+                    <p><a href="{{path('app_register')}}" class="badge badge-dark">S'inscrire</a></p>
                     
                     <button class="btn btn-md btn-secondary mt-4" type="submit">Valider</button>
                 </form>

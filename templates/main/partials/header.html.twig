@@ -1,0 +1,22 @@
+{# Création du header du template de la section 'main' #}
+<nav>
+    <ul class="list-nav">
+        <li class="item-nav">
+            <a href="#">Accueil</a>
+        </li>
+        <li class="item-nav">
+            <a href="#">A propos</a>
+        </li>
+        <li class="item-nav">
+            <a href="#">Contact</a>
+        </li>
+        <li class="item-nav">
+            <a href="{{path('app_login')}}">Connexion</a>
+        </li>
+    </ul>
+    
+    {# Icone de menu hamburger #}
+    <div class="btn-toogle-container" role="button">
+        <img src="img/hamburger.svg" alt="Icone du menu hamburger">
+    </div>
+</nav>

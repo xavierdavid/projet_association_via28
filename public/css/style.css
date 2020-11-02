@@ -1,4 +1,74 @@
-/* Taille des images */
+/****** Paramétrage du body ********/
+*, ::before, ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/****** Barre de navigation responsive ******/
+nav {
+    height: 70px;
+    width: 100%;
+    background: #333;
+}
+
+.list-nav {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.item-nav {
+    display: inline-block;
+    line-height: 70px;
+    font-size: 25px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.item-nav a {
+    text-decoration: none;
+    color: #f1f1f1;
+}
+
+.btn-toogle-container {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    display: none;
+}
+
+.btn-toogle-container img {
+    width: 40px;
+}
+
+@media screen and (max-width: 650px) {
+    .btn-toogle-container {
+        display: block;
+    }
+    nav {
+        border-bottom: 1px solid #f1f1f1;
+    }
+    .list-nav {
+        position: relative;
+        top: 70px;
+        display: none;
+    }
+    .item-nav {
+        display: block;
+        background: #333;
+        margin: 0;
+    }
+    .list-nav.active-menu {
+        display: block;
+    }
+}
+
+
+
+
+/***** Taille des images *****/
 .largeSizeImage {
     width: 200px;
 }
@@ -11,13 +81,13 @@
     max-width: 60px;
 }
 
-/* Taille des cards */
+/**** Taille des cards ****/
 .card {
     max-width: 20rem;
     height: 35rem;
 }
 
-/* Taille des formulaires */
+/**** Taille des formulaires ****/
 .mediumFormSize {
     margin: auto;
     max-width: 80%;

@@ -13,11 +13,12 @@
     </head>
     <body>
         {# Inclusion du header disponible dans 'partials' #}
-        {% include 'main/partials/header.html.twig' %}
+        {#{% include 'partials/header.html.twig' %}#}
         
-        {# Block spécifique du body qui sera surchargé par les templates #}
+        <div class="container">
+            <h1 class="border border-dark rounded bg-secondary text-white text-center p-2 d-block mb-5 mt-5">{% block mainTitle %}{% endblock %}</h1>
+        </div>
         {% block body %}{% endblock %}
-        {# Block spécifique javascript qui sera surchargé par les templates #}
         {% block javascripts %}{% endblock %}
 
         {# Bootstrap Javascript link #}
