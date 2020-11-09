@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace adhérents{% endblock %}
+
+{% block body %}
+
+    <h1>Mon compte utilisateur</h1>
+
+    {# Affichage des messages flash #}
+    {% for message in app.flashes('message') %}
+        <div class="alert alert-success text-center" role="alert">{{message}}</div>
+    {% endfor %}
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning text-center" role="alert">{{message}}</div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger text-center" role="alert">{{message}}</div>
+    {% endfor %}
+
+    {# Message d'accueil utilisateur #}
+    <p>Bonjour {{app.user.firstName}}, bienvenue dans l'espace adhérent de l'association. C'est ici que vous allez pouvoir gérer l'ensemble des informations de votre compte utilisateur.</p>
+    <hr>
+    {# Lien vers la page de modification du mot de passe #}
+    <a href="{{path('account_password')}}">Modifier mon mot de passe</a>
+
+    {# Affichage de la variable 'app' #}
+    {# {{dump(app.user.firstName)}} #}
+
+{% endblock %}

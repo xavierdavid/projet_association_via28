@@ -90,6 +90,14 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
         return $credentials['password'];
     }
 
+    /**
+     * Définit les actions à effectuer après l'authentification réussie de l'utilisateur
+     *
+     * @param Request $request
+     * @param TokenInterface $token
+     * @param string $providerKey
+     * @return void
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
@@ -98,8 +106,8 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
 
-        // On redirige vers le formulaire de login 
-        return new RedirectResponse($this->urlGenerator->generate('app_login'));
+        // On redirige l'utilisateur vers la page d'accueil de l'espace utilisateurs 
+        return new RedirectResponse($this->urlGenerator->generate('account'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

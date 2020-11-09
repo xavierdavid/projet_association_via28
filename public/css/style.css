@@ -39,11 +39,31 @@ nav {
     display: none;
 }
 
+.item-login-logout {
+    position: absolute;
+    top: 25px;
+    right: 15px;
+    cursor: pointer;
+}
+
+.item-login-logout span {
+    margin-right: 10px;
+}
+
+.item-login-logout a {
+    text-decoration: none;
+    color: #f1f1f1;
+}
+
+.item-login-logout a:hover {
+    color: #b2bdf1;
+}
+
 .btn-toogle-container img {
     width: 40px;
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 995px) {
     .btn-toogle-container {
         display: block;
     }
@@ -60,13 +80,21 @@ nav {
         background: #333;
         margin: 0;
     }
+    .item-login-logout span {
+        display: none;
+    }
+    .item-login-logout {
+        right: 70px;
+        margin: 0px 10px;
+    }
+    .item-login-logout i {
+        font-size: 22px;
+        margin-left: 10px;
+    }
     .list-nav.active-menu {
         display: block;
     }
 }
-
-
-
 
 /***** Taille des images *****/
 .largeSizeImage {
@@ -91,4 +119,10 @@ nav {
 .mediumFormSize {
     margin: auto;
     max-width: 80%;
+}
+
+/****** Pagination ******/
+.pagination nav {
+    background-color: white;
+    text-align: center;
 }

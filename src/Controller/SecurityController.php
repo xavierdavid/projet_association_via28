@@ -24,9 +24,10 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        // Si un utilisateur authentifié existe, on fait une redirection vers la page d'accueil de l'espace utilisateurs
+        if ($this->getUser()) {
+            return $this->redirectToRoute('account');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -75,7 +76,7 @@ class SecurityController extends AbstractController
             
             // On teste l'envoi du token de réinitialisation en base de données
             try {
-                // Affectation de la valeur du token à la propriété 'rest_token' dela classe User via le setter
+                // Affectation de la valeur du token à la propriété 'rest_token' de la classe User via le setter
                 $user->setResetToken($resetToken);
                 // Envoi en base de données à l'aide du manager de Doctrine 
                 $manager->persist($user);
@@ -104,7 +105,7 @@ class SecurityController extends AbstractController
 
         // Envoi des données au template pour l'affichage
         return $this->render('security/forgotten_password.html.twig', [
-            "resetForm" => $form->createView() // Envoi du formulaire
+            "resetForm" => $form->createView() // Envoi du formulaire à la vue
         ]);
     }
 

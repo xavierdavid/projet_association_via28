@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * * @ORM\HasLifecycleCallbacks
+ * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(fields={"email"}, message="Un autre utilisateur est déjà inscrit avec cette adresse email, merci de la modifier.")
  */
 class User implements UserInterface
@@ -63,7 +63,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Regex("#^0[1-68][0-9]{8}$#",message="Le numéro de téléphone doit comporter 10 chiffres")
+     * @Assert\Regex("#^0[1-68][0-9]{8}$#",message="Le numéro de téléphone n'est pas valide !")
      */
     private $phone;
 

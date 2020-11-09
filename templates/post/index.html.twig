@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des posts{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1 class="border border-dark rounded bg-secondary text-white text-center p-2 d-block mb-5 mt-5">Liste des posts publiés</h1>
+</div>
+
+{# Affichage de la variable 'posts' avec Twig #}
+{#{{dump(posts)}}#}
+
+{# Affichage de la liste de tous les posts #}
+{% for post in posts %}
+    <h2>{{post.title}}</h2>
+    <p>Publié le {{post.createdAt|date("m/d/Y")}}</p>
+    <div>{{post.content|raw}}</div> 
+{% endfor %}
+
+{# Affichage de la pagination #}
+<div class="pagination">
+    {{knp_pagination_render(posts)}}
+</div>
+
+{% endblock %}
