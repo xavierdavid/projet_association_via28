@@ -114,7 +114,7 @@ class SecurityController extends AbstractController
      * @Route("/reset-password/{resetToken}", name="app_reset_password")
      * @return void
      */
-    public function resetPassword($resetToken, Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder)
+    public function resetPassword($resetToken, Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
     {
         // On récupère l'utilisateur ayant le token passé en paramètre à l'aide du manager de Doctrine et du repository
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['reset_token'=>$resetToken]);
@@ -125,38 +125,33 @@ class SecurityController extends AbstractController
             // On redirige vers la page de login
             return $this->redirectToRoute('app_login');
         }
-        
-        // Si le formulaire a bien été soumis via la méthode Post 
-        if($request->isMethod('POST')) {
-            // On supprime le token de l'utilisateur 
-            $user->setResetToken(null);
-            // On récupère dans la requête le nouveau mot de passe transmis en post via le formulaire
-            $newPassword = $request->request->get('password'); 
-            // On récupère le deuxième mot de passe saisi par l'utilisateur pour confirmation
-            $passwordVerify = $request->request->get('password_verify');
 
-            // Si les deux mots de passe sont identiques 
-            if($newPassword === $passwordVerify) {
-                // On affecte le mot de passe récupéré en le chiffrant, à la propriété 'password' de l'entité USER à l'aide de son setter 
-                $user->setPassword($passwordEncoder->encodePassword($user, $newPassword));
-                // On envoie les données dans la base à l'aide du Manager de Doctrine
-                $manager->persist($user);
-                $manager->flush();
-                // On envoie un message flash à l'utilisateur
-                $this->addFlash('message', 'Mot de passe modifié avec succès !');
-                // On redirige vers la page de login
-                return $this->redirectToRoute('app_login');
-            // Si les deux mots de passe ne sont pas identiques
-            } else {
-                // On envoie un message flash à l'utilisateur
-                $this->addFlash('danger', 'Les deux mots de passe saisis ne sont pas identiques !');
-                // On affiche de nouveau le formulaire de réinitialisation de mot de passe avec le token
-                return $this->render('security/reset_password.html.twig', ['resetToken'=>$resetToken]);
-            }
-        // Sinon, si le formulaire n'a pas été envoyé en Post via le formulaire    
-        } else {
-            // On affiche de nouveau le formulaire de réinitialisation de mot de passe avec le token
-            return $this->render('security/reset_password.html.twig', ['resetToken'=>$resetToken]);
+        // Création du formulaire de réinitialisation du mot de passe
+        $form = $this->createForm(ResetPasswordType::class, $user);
+        // Récupération de la requête
+        $form->handleRequest($request);
+        // Vérification de la soumission et de la validité des données
+        if($form->isSubmitted() && $form->isValid()) {
+            // On supprime le token de réinitialisation de l'utilisateur 
+            $user->setResetToken(null);
+            // On récupère le nouveau mot de passe saisi dans le formulaire de réinitialisation 
+            $new_password = $form->get('new_password')->getData();
+            // On encode le nouveau mot de passe
+            $password = $encoder->encodePassword($user,$new_password);
+            // On affecte le mot de passe encodé à l'attribut password de l'entité User à l'aide de son setter
+            $user->setPassword($password);
+            // On envoie le nouveau mot de passe crypté dans la base à l'aide du manager de Doctrine
+            $manager->persist($user);
+            $manager->flush();
+            // On envoie un message flash à l'utilisateur
+            $this->addFlash('message', 'Mot de passe réinitialisé avec succès !');
+            // On redirige vers la page de login
+            return $this->redirectToRoute('app_login');
         }
+
+        // Envoi des données au template pour l'affichage
+        return $this->render('security/reset_password.html.twig', [
+            "resetPasswordForm" => $form->createView(), // Envoi du formulaire à la vue
+        ]);  
     }
 }
