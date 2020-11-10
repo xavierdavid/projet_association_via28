@@ -8,15 +8,20 @@
         <link rel="stylesheet" href="{{asset('css/style.css')}}">
         {# Fontawesome link #}
         <link rel="stylesheet" href="{{asset('fontawesome/css/all.css')}}">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Bienvenue sur le site de notre association{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
     </head>
+    
     <body>
         {# Inclusion du header disponible dans 'partials' #}
         {% include 'partials/header.html.twig' %}
         
         {# Block spécifique du body qui sera surchargé par les templates #}
         {% block body %}{% endblock %}
+
+         {# Inclusion du footer disponible dans 'partials' #}
+        {% include 'partials/footer.html.twig' %}
+        
         {# Block spécifique javascript qui sera surchargé par les templates #}
         {% block javascripts %}{% endblock %}
 
