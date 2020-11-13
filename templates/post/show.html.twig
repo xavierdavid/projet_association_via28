@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block body %}
+    
+    <h1>{{post.title}}</h1>
+    <a href="{{path('post_index')}}">Retourner à la liste des posts</a>
+    <hr>
+
+    {# Affichage des messages flash #}
+    {% for message in app.flashes('message') %}
+        <div class="alert alert-success text-center" role="alert">{{message}}</div>
+    {% endfor %}
+
+    <p>Publié le {{post.createdAt|date('d/m/Y à h\\hi')}} par {{post.getUser.firstName}} {{post.getUser.lastName}}</p>
+    <figure>
+        <img src="{{asset('img/' ~ post.coverImage)}}" alt="{post.coverImage}}" class="mediumSizeImage">
+    </figure>
+    
+    {# Catégories rattachées au post #}
+    {% for category in post.category %}
+        Catégorie : {{category.name}}
+    {% endfor %}
+    <div>{{post.content|raw}}</div>
+    
+    {# Affichage du nombre de commentaire rattaché au post #}
+    <h2>Commentaires : {{post.getComment|length}}</h2>
+    
+    {# Affichage de tous les commentaires rattachés au post #}
+    {% for comment in post.getComment %}
+        <p>Commentaire publié par {{comment.user.firstName}} {{comment.user.lastName}} le {{comment.getCreatedAt|date('d/m/Y à h\\hi')}}</p>
+        <div>{{comment.content}}</div>
+    {% else %}
+        <p>Aucun commentaire pour l'instant...</p>
+    {% endfor %}
+
+    {# Affichage du formulaire d'ajout de commentaire #}
+    <h2>Ajouter un nouveau commentaire</h2>
+    <hr>
+    {{form(commentForm)}}
+
+{% endblock %}

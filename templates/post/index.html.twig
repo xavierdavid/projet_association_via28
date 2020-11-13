@@ -1,20 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des posts{% endblock %}
+{% block title %}Liste des publications{% endblock %}
 
 {% block body %}
 
-<div class="container">
-    <h1 class="border border-dark rounded bg-secondary text-white text-center p-2 d-block mb-5 mt-5">Liste des posts publiés</h1>
-</div>
+<h1>Liste des posts publiés</h1>
+<a href="{{path('account')}}">Retourner sur mon compte</a>
+<hr>
+
+<p>Bonjour {{app.user.firstName}}, bienvenue dans l'espace 'blog' de l'association. C'est ici que vous allez pouvoir publier des contenus, échanger sur des projets, des événements à venir... et les partager avec les autres adhérents.</p>
+<hr>
 
 {# Affichage de la variable 'posts' avec Twig #}
 {#{{dump(posts)}}#}
 
 {# Affichage de la liste de tous les posts #}
 {% for post in posts %}
-    <h2>{{post.title}}</h2>
+    <h2><a href="{{path('post_show', {'slug': post.slug })}}">{{post.title}}</a></h2>
     <p>Publié le {{post.createdAt|date("m/d/Y")}}</p>
+    <figure>
+        <img src="{{asset('img/' ~ post.coverImage)}}" alt="{post.coverImage}}" class="mediumSizeImage">
+    </figure>
     <div>{{post.content|raw}}</div> 
 {% endfor %}
 

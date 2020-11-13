@@ -113,9 +113,15 @@ class User implements UserInterface
      */
     private $country;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -322,23 +328,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * Callback qui permet d'initialiser automatiquement le slug de l'utilisateur à partir du firstName et du lastName de l'utilisateur à l'aide du cycle de vie de l'entité !
-     * 
-     * @ORM\PrePersist 
-     * @ORM\PreUpdate
-     * @return void
-     */
-    public function initializeSlug() {
-        // Si le slug est vide 
-        if(empty($this->slug)) {
-            // On crée une instance de la classe Slugify (librairie Cocur/Slugify)
-            $slugify = new Slugify();
-            // Le slug de l'utilisateur est défini automatiquement à partir du firstName et du lastName de l'utilisateur grâce à la méthode slugify de l'instance de notre classe Slugify
-            $this->slug = $slugify->slugify($this->first_name . ' ' . $this->last_name);
-        }
-    }
-
     public function getResetToken(): ?string
     {
         return $this->reset_token;
@@ -383,6 +372,54 @@ class User implements UserInterface
     public function setCountry(string $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Callback qui permet d'initialiser automatiquement le slug de l'utilisateur à partir du firstName et du lastName de l'utilisateur à l'aide du cycle de vie de l'entité !
+     * 
+     * @ORM\PrePersist 
+     * @ORM\PreUpdate
+     * @return void
+     */
+    public function initializeSlug() {
+        // Si le slug est vide 
+        if(empty($this->slug)) {
+            // On crée une instance de la classe Slugify (librairie Cocur/Slugify)
+            $slugify = new Slugify();
+            // Le slug de l'utilisateur est défini automatiquement à partir du firstName et du lastName de l'utilisateur grâce à la méthode slugify de l'instance de notre classe Slugify
+            $this->slug = $slugify->slugify($this->first_name . ' ' . $this->last_name);
+        }
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
 
         return $this;
     }

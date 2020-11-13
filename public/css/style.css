@@ -12,11 +12,31 @@
     padding: 0;
 }
 
-/****** Titres H1 ********/
+/****** Titres ********/
 h1 {
    text-align: center;
    padding: 20px;
    color: #7e7d7d;
+}
+
+h2 {
+    padding: 20px;
+    color: #7966d3;
+    font-size: 20px;
+ }
+
+
+/* Taille des images */
+.largeSizeImage {
+    width: 200px;
+}
+
+.mediumSizeImage {
+    max-width: 100px;
+}
+
+.smallSizeImage {
+    max-width: 60px;
 }
 
 /****** Header - Barre de navigation responsive ******/
