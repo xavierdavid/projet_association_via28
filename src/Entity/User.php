@@ -98,6 +98,21 @@ class User implements UserInterface
      */
     private $reset_token;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $postal;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $country;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -317,7 +332,7 @@ class User implements UserInterface
     public function initializeSlug() {
         // Si le slug est vide 
         if(empty($this->slug)) {
-            // On créée une instance de la classe Slugify (librairie Cocur/Slugify)
+            // On crée une instance de la classe Slugify (librairie Cocur/Slugify)
             $slugify = new Slugify();
             // Le slug de l'utilisateur est défini automatiquement à partir du firstName et du lastName de l'utilisateur grâce à la méthode slugify de l'instance de notre classe Slugify
             $this->slug = $slugify->slugify($this->first_name . ' ' . $this->last_name);
@@ -332,6 +347,42 @@ class User implements UserInterface
     public function setResetToken(?string $reset_token): self
     {
         $this->reset_token = $reset_token;
+
+        return $this;
+    }
+
+    public function getPostal(): ?string
+    {
+        return $this->postal;
+    }
+
+    public function setPostal(string $postal): self
+    {
+        $this->postal = $postal;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): self
+    {
+        $this->country = $country;
 
         return $this;
     }

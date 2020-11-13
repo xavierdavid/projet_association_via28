@@ -17,7 +17,9 @@
         {% include 'partials/header.html.twig' %}
         
         {# Block spécifique du body qui sera surchargé par les templates #}
-        {% block body %}{% endblock %}
+        <div class="content">
+            {% block body %}{% endblock %}
+        </div>
 
          {# Inclusion du footer disponible dans 'partials' #}
         {% include 'partials/footer.html.twig' %}

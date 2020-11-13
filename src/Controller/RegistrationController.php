@@ -46,8 +46,6 @@ class RegistrationController extends AbstractController
             // Création d'une cover_image par défaut pour l'utilisateur 
             $user->setCoverImage("user_avatar.jpg");
 
-            // Création du rôle utilisateur. Par défaut, Symfony, dans la table User, définit un rôle 'ROLE_USER' par défaut à tous les utilisateurs (getRoles()) 
-
             // Création automatique du slug dans le cycle de vie de l'entité User à l'aide de Slugify
 
             // Récupération du manager de Doctrine
@@ -60,13 +58,19 @@ class RegistrationController extends AbstractController
             // Envoi d'un email avec le service SendEmail permettant à l'utilisateur d'activer son compte
             // On utilise le service SendEmail pour envoyer un email d'activation à l'utilisateur
             $email->emailUserActivation($user);
+
+            // Envoi d'un message flash de confirmation
+            $this->addFlash('message', 'Un email vient de vous être envoyé à l\'adresse ' . $user->getEmail() . ' pour activer votre compte');
+
+            // On redirige vers la page de login
+            return $this->redirectToRoute('app_login');
             
-            return $guardHandler->authenticateUserAndHandleSuccess(
+            /* return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
                 $authenticator,
                 'main' // firewall name in security.yaml
-            );
+            ); */
         }
 
         return $this->render('registration/register.html.twig', [

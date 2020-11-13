@@ -9,8 +9,11 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -44,7 +47,22 @@ class RegistrationFormType extends AbstractType
                     'placeholder' => "Veuillez saisir votre adresse postale"
                 ]
             ])
-            ->add('phone', TextType::class, [
+            ->add('postal', TextType::class, [
+                'attr'  => [
+                    'placeholder' => "Veuillez saisir votre code postal"
+                ]
+            ])
+            ->add('city', TextType::class, [
+                'attr'  => [
+                    'placeholder' => "Veuillez saisir votre ville"
+                ]
+            ])
+            ->add('country', CountryType::class, [
+                'attr'  => [
+                    'placeholder' => "Veuillez sélectionner votre pays"
+                ]
+            ])
+            ->add('phone', TelType::class, [
                 'attr'  => [
                     'placeholder' => "Veuillez saisir votre numéro de téléphone"
                 ]
@@ -86,6 +104,11 @@ class RegistrationFormType extends AbstractType
                         'message' => 'J\'accepte la politique de traitement des données personnelles',
                     ]),
                 ],
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-secondary btn-lg btn-block',
+                ]
             ])
             //->add('slug') // Le slug est généré automatiquement dans le cycle de vie de l'entité User
             //->add('cover_image') // L'image par défaut est gérée par le contrôleur
