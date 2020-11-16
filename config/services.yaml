@@ -30,8 +30,14 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    # Service d'envoi de notification par mail
+    # Service d'envoi de notification par mail avec SwiftMailer
     send_mailer:
         class: App\Service\SendEmail
         arguments:
             - '@mailer'
+
+    # Service d'envoi de notification par mail avec MailJet
+    send_mailjet:
+        class: App\Service\Mail
+        arguments:
+            - '@mailjet'

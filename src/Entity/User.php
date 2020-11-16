@@ -376,6 +376,38 @@ class User implements UserInterface
         return $this;
     }
 
+    
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+    
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
+        
+        return $this;
+    }
+    
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
+        
+        return $this;
+    }
+    
     /**
      * Callback qui permet d'initialiser automatiquement le slug de l'utilisateur à partir du firstName et du lastName de l'utilisateur à l'aide du cycle de vie de l'entité !
      * 
@@ -391,36 +423,5 @@ class User implements UserInterface
             // Le slug de l'utilisateur est défini automatiquement à partir du firstName et du lastName de l'utilisateur grâce à la méthode slugify de l'instance de notre classe Slugify
             $this->slug = $slugify->slugify($this->first_name . ' ' . $this->last_name);
         }
-    }
-
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
-            // set the owning side to null (unless already changed)
-            if ($comment->getUser() === $this) {
-                $comment->setUser(null);
-            }
-        }
-
-        return $this;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\Mail;
 use App\Service\SendEmail;
 use App\Form\ForgottenPassType;
 use App\Form\ResetPasswordType;
@@ -50,7 +51,7 @@ class SecurityController extends AbstractController
      * @Route("/forgotten-password", name="app_forgotten_password")
      * @return void
      */
-    public function forgottenPass(Request $request, UserRepository $userRepository, SendEmail $email, TokenGeneratorInterface $tokenGenerator, EntityManagerInterface $manager)
+    public function forgottenPass(Request $request, UserRepository $userRepository, SendEmail $email, TokenGeneratorInterface $tokenGenerator, EntityManagerInterface $manager, Mail $mail)
     {
         // Création du formulaire d'oubli du mot de passe 
         $form = $this->createForm(ForgottenPassType::class);
@@ -94,7 +95,7 @@ class SecurityController extends AbstractController
             // On envoi un email à l'utilisateur avec un lien contenant l'URL de réinitialisation
             // On utilise le service SendEmail pour envoyer l'email de réinitialisation à l'utilisateur 
             // On passe en paramètre : l'objet User et l'url de réinitialisation
-            $email->emailResetNotification($user, $resetUrl);
+            $mail->emailResetNotification($user, $resetUrl);
 
             // Envoi d'un message flash de confirmation
             $this->addFlash('message', 'Un email de réinitialisation de mot de passe vient de vous être envoyé à l\'adresse suivante : ' . $user->getEmail());

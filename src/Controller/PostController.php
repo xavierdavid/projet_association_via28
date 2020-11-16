@@ -52,8 +52,8 @@ class PostController extends AbstractController
             'slug' => $slug
         ]);
 
-        // Récupération de l'utilisateur ayant publié le post
-        $user = $post->getUser();
+        // Récupération de l'utilisateur authentifié
+        $user = $this->getUser();
 
         // Si le post n'existe pas 
         if(!$post) {

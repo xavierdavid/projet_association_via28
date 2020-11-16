@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\Mail;
+use App\Service\SendEmail;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\UserAuthenticator;
-use App\Service\SendEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +21,7 @@ class RegistrationController extends AbstractController
      * Contrôle l'affichage et le traitement du formulaire d'inscription des utilisateurs
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserAuthenticator $authenticator, SendEmail $email): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserAuthenticator $authenticator, SendEmail $email, Mail $mail): Response
     {
         // Création d'une nouvelle instance de la classe 'User' pour créer un nouvel utilisateur
         $user = new User();
@@ -55,9 +56,8 @@ class RegistrationController extends AbstractController
             // Envoi en base de données 
             $entityManager->flush();
 
-            // Envoi d'un email avec le service SendEmail permettant à l'utilisateur d'activer son compte
-            // On utilise le service SendEmail pour envoyer un email d'activation à l'utilisateur
-            $email->emailUserActivation($user);
+            // Envoi d'un email avec le service Mail permettant à l'utilisateur d'activer son compte
+            $mail->emailUserActivation($user);
 
             // Envoi d'un message flash de confirmation
             $this->addFlash('message', 'Un email vient de vous être envoyé à l\'adresse ' . $user->getEmail() . ' pour activer votre compte');
