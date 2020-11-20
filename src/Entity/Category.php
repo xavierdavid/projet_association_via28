@@ -39,6 +39,16 @@ class Category
         $this->posts = new ArrayCollection();
     }
 
+    /**
+     * Retourne le nom de la catégorie sous forme de chaîne
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

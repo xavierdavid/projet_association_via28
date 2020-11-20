@@ -15,7 +15,7 @@
 
     <p>Publié le {{post.createdAt|date('d/m/Y à h\\hi')}} par {{post.getUser.firstName}} {{post.getUser.lastName}}</p>
     <figure>
-        <img src="{{asset('img/' ~ post.coverImage)}}" alt="{post.coverImage}}" class="mediumSizeImage">
+        <img src="{{asset('uploads/' ~ post.coverImage)}}" alt="{{post.coverImage}}" class="mediumSizeImage">
     </figure>
     
     {# Catégories rattachées au post #}

@@ -39,6 +39,17 @@ class Keywords
         $this->posts = new ArrayCollection();
     }
 
+    /**
+    * Retourne le mot-clé sous forme de chaîne
+    *
+    * @return string
+    */
+   public function __toString()
+   {
+       return $this->keyword;
+   }
+
+
     public function getId(): ?int
     {
         return $this->id;

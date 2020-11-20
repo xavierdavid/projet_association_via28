@@ -13,15 +13,26 @@
 
 {# Affichage de la variable 'posts' avec Twig #}
 {#{{dump(posts)}}#}
+{# Affichage des messages flash #}
+        {% for message in app.flashes('message') %}
+            <div class="alert alert-success text-center" role="alert">{{message}}</div>
+        {% endfor %}
+        {% for message in app.flashes('warning') %}
+            <div class="alert alert-warning text-center" role="alert">{{message}}</div>
+        {% endfor %}
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger text-center" role="alert">{{message}}</div>
+        {% endfor %}
 
 {# Affichage de la liste de tous les posts #}
 {% for post in posts %}
     <h2><a href="{{path('post_show', {'slug': post.slug })}}">{{post.title}}</a></h2>
-    <p>Publié le {{post.createdAt|date("m/d/Y")}}</p>
+    <p><small><strong>Publié le {{post.createdAt|date("m/d/Y")}} à {{post.createdAt | date('H:i')}}</strong> - Commentaires </small><span class="badge badge-info">{{post.comment|length}}</span></p>
     <figure>
-        <img src="{{asset('img/' ~ post.coverImage)}}" alt="{post.coverImage}}" class="mediumSizeImage">
+        <img src="{{asset('uploads/' ~ post.coverImage)}}" alt="{{post.coverImage}}" class="mediumSizeImage">
     </figure>
     <div>{{post.content|raw}}</div> 
+    <p><small><em>Auteur : {{post.getUser.getFirstname|capitalize}} {{post.getUser.getLastname|upper}}</small></em></p>
 {% endfor %}
 
 {# Affichage de la pagination #}

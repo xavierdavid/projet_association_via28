@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une publication{% endblock %}
+
+{% block body %}
+
+    <h1>Ajouter une nouvelle publication</h1>
+    <a href="{{path('account')}}">Retourner sur mon compte</a>
+    <hr>
+
+    <p>Hello {{app.user.firstName}} ! Vous pouvez créer une nouvelle publication sur le blog de l'espace adhérents de l'association en utilisant le formulaire ci-dessous.</p>
+    <hr>
+
+    {# Affichage du formulaire de création d'un nouveau post #}
+    <section class="container mediumFormSize">
+        
+        {{ form(postForm) }}
+
+    </section>
+
+{% endblock %}
