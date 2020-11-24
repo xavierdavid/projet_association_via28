@@ -27,12 +27,36 @@
         {# Block spécifique javascript qui sera surchargé par les templates #}
         {% block javascripts %}{% endblock %}
 
+        {# Modale de confirmation de suppression de contenus #}
+        <div id="modalSuppression" class="modal fade">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirmation de suppression</h5>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <form method="POST" action="" id="deleteForm">
+                            {# On insère un champ caché parmettant de changer la méthode post (qui normalement est utilisée pour envoyer les informations de suppression au controller) en une méthode de type 'delete'. Le controller prendra en compte cette méthode dans la route dédiée à la suppression #}
+                            <input type="hidden" name="_method" value="DELETE">
+                            {# Ajout d'un 'Token' CSRF pour sécuriser le formulaire de suppression #}
+                            <input type="hidden" name="_token" value="" id="inputToken">
+                            <input type="submit" id="btnSupprimer" class="btn btn-primary" value="Supprimer">
+                            <a href="#" class="btn btn-secondary" data-dismiss="modal">Ne pas supprimer</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {# Bootstrap Javascript link #}
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
-        {# Javascript link #}
+        {# Javascript links #}
         <script src="{{asset('js/menu.js')}}"></script>
+        {# Gestion modale Javascript #}
+        <script src="{{asset('js/modal.js')}}"></script>
     </body>
 </html>

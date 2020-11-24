@@ -30,7 +30,7 @@ class PostFormType extends AbstractType
                 'label'=>'Ajouter une image',
                 'multiple' => false,
                 'mapped' => false, // Champ non lié à la base de données
-                'required' => false // champ facultatif
+                'required' => false, // champ facultatif
             ])
             ->add('keyword', EntityType::class, [
                 'class'=> Keywords::class,

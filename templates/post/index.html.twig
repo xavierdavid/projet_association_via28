@@ -8,7 +8,7 @@
 <a href="{{path('account')}}">Retourner sur mon compte</a>
 <hr>
 
-<p>Bonjour {{app.user.firstName}}, bienvenue dans l'espace 'blog' de l'association. Echangez sur des projets, des événements à venir, publiez des contenus ... et partagez-les avec les autres adhérents.</p>
+<p><strong>{{app.user.firstName}}</strong>, vous êtes dans l'espace 'blog' de l'association. Echangez sur des projets, des événements à venir, publiez des contenus ... et partagez-les avec les autres adhérents.</p>
 <hr>
 
 {# Affichage de la variable 'posts' avec Twig #}
@@ -33,6 +33,13 @@
     </figure>
     <div>{{post.content|raw}}</div> 
     <p><small><em>Auteur : {{post.getUser.getFirstname|capitalize}} {{post.getUser.getLastname|upper}}</small></em></p>
+    {# Affichage des boutons d'édition et de suppression à l'utilisateur authentifié propriétaire de la publication #}
+    {% if app.user and app.user == post.getUser %}
+        {# Lien d'édition #}
+        <a href="{{path('post_edit', {'slug': post.slug})}}" class="btn btn-secondary"><i class="fas fa-pen"></i></a> 
+        {# Bouton de suppression #}
+        <button type="submit" class="btn btn-danger deleteButton" data-target="#modalSuppression" delete-message="Voulez-vous supprimer cette publication ?" delete-route="{{path('post_delete', {'slug': post.slug})}}" delete-token="{{csrf_token('DELETE' ~ post.slug)}}" data-toggle="modal"><i class="fas fa-trash-alt"></i></button> 
+    {% endif %}
 {% endfor %}
 
 {# Affichage de la pagination #}

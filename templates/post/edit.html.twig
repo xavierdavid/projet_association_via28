@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une publication{% endblock %}
+
+{% block body %}
+    <h1>Modifier une publication</h1>
+    <a href="{{path('account')}}">Retourner sur mon compte</a>
+    <hr>
+
+    <p>Hello {{app.user.firstName}} ! Vous pouvez modifier votre publication <em>'{{post.title}}'</em> en utilisant le formulaire ci-dessous.</p>
+    <hr>
+
+    {# Affichage du formulaire de création d'un nouveau post #}
+    <section class="container mediumFormSize">
+        {{form_start(postForm)}} 
+            {{ form_row(postForm.title) }}
+            {{ form_row(postForm.content) }}
+           
+            {# Affichage de l'image actuelle du post #}
+            <figure>
+                <p>Image actuelle : <small>{{post.coverImage}}</small></p>
+                <img src="{{asset('uploads/' ~ post.coverImage)}}" alt="{{post.coverImage}}" class="mediumSizeImage">
+            </figure>   
+            {{ form_row(postForm.cover_image) }}
+
+            {{ form_row(postForm.keyword) }}
+            {{ form_row(postForm.category) }}
+            
+        {{form_end(postForm)}}
+    </section>
+{% endblock %}
+

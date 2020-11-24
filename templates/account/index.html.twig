@@ -19,7 +19,7 @@
     {% endfor %}
 
     {# Message d'accueil utilisateur #}
-    <p>Bonjour {{app.user.firstName}}, bienvenue dans l'espace adhérent de l'association. C'est ici que vous allez pouvoir gérer l'ensemble des informations de votre compte utilisateur.</p>
+    <p><strong>Bonjour {{app.user.firstName}}</strong>, bienvenue dans l'espace adhérent de l'association. C'est ici que vous allez pouvoir gérer l'ensemble des informations de votre compte utilisateur.</p>
     <hr>
     {# Lien vers la page de modification du mot de passe #}
     <a href="{{path('account_password')}}">Modifier mon mot de passe</a>
