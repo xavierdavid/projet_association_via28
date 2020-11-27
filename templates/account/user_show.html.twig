@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de {{user.firstName|capitalize}} {{user.lastName|upper}}{% endblock %}
+
+{% block body %}
+
+    {# Message d'accueil utilisateur #}
+    <div class="text-center mt-5">
+        <p>Vous êtes sur la page de profil de <strong>{{user.firstName|capitalize}} {{user.lastName|upper}}</strong>. Accédez à l'ensemble des publications de cet adhérent.</p>
+        <hr>
+        {# Lien vers la page des publications #}
+        <a href="{{path('post_index')}}"><i class="fas fa-backward"></i> Retour vers le blog de l'association</a>
+        <hr>
+    </div>
+
+    {# Inclusion des informations du profil de l'utilisateur disponible dans 'partials' #}
+    {% include 'account/partials/user_profile.html.twig' %}
+
+{% endblock %}

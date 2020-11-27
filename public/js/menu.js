@@ -2,7 +2,7 @@
 
 // Récupération des éléments du DOM 
 const menu = document.querySelector('.list-nav'); // Liste du menu
-const btnMenu = document.querySelector('.btn-toogle-container') // Icone hamburger
+const btnMenu = document.querySelector('.btn-toggle-container') // Icone hamburger
 
 // Définition d'un gestionnaire d'événement 
 btnMenu.addEventListener('click', function() {

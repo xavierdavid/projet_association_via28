@@ -4,8 +4,8 @@
 
 {% block body %}
 
-    <h1>Mon compte utilisateur</h1>
-    <hr>
+    {# <h1>Mon compte utilisateur</h1>
+    <hr> #}
 
     {# Affichage des messages flash #}
     {% for message in app.flashes('message') %}
@@ -19,14 +19,19 @@
     {% endfor %}
 
     {# Message d'accueil utilisateur #}
-    <p><strong>Bonjour {{app.user.firstName}}</strong>, bienvenue dans l'espace adhérent de l'association. C'est ici que vous allez pouvoir gérer l'ensemble des informations de votre compte utilisateur.</p>
-    <hr>
-    {# Lien vers la page de modification du mot de passe #}
-    <a href="{{path('account_password')}}">Modifier mon mot de passe</a>
-    <hr>
-    {# Lien vers la page des publications #}
-    <a href="{{path('post_index')}}">Accéder au blog de l'association</a>
-
+    <div class="text-center mt-5">
+        <p><strong>Bonjour {{app.user.firstName}}</strong>, bienvenue dans l'espace adhérent de l'association. C'est ici que vous allez pouvoir gérer l'ensemble des informations de votre compte utilisateur.</p>
+        <hr>
+        {# Lien vers la page de modification du mot de passe #}
+        <a href="{{path('account_password')}}">Modifier mon mot de passe</a>
+        <hr>
+        {# Lien vers la page des publications #}
+        <a href="{{path('post_index')}}">Accéder au blog de l'association</a>
+    </div>
+    
+    {# Inclusion des informations du profil de l'utilisateur disponible dans 'partials' #}
+    {% include 'account/partials/user_profile.html.twig' %}
+    
     {# Affichage de la variable 'app' #}
     {# {{dump(app.user.firstName)}} #}
 
