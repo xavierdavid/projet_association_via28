@@ -15,6 +15,7 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+
 class RegistrationController extends AbstractController
 {
     /**
@@ -43,9 +44,6 @@ class RegistrationController extends AbstractController
             $user->setActivationToken(md5(uniqid()));
 
             // Création du rôle utilisateur. Par défaut, Symfony, dans la table User, définit un rôle 'ROLE_USER' par défaut à tous les utilisateurs (getRoles()) 
-
-            // Création d'une cover_image par défaut pour l'utilisateur 
-            $user->setCoverImage("user_avatar.jpg");
 
             // Création automatique du slug dans le cycle de vie de l'entité User à l'aide de Slugify
 

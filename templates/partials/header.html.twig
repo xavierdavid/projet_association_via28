@@ -17,7 +17,20 @@
         {# Items de login et logout #}
         <div class="item-login-logout">
             {% if app.user %}
-                <a href="{{path('account')}}" class="dropdown"><i class="far fa-user"></i><span> Mon compte <small>({{app.user.firstName}})</small></span></a>
+                <a href="{{path('account')}}" class="dropdown"><i class="far fa-user"></i><span> {{app.user.firstName}}</span></a>
+                    <div class="dropdown-box">
+                        {# Dropdown menu #}
+                        <div class="dropdown-content">
+                            {# Lien vers la page du compte utilisateur #}
+                            <a href="{{path('account')}}">Mon compte</a>
+                            {# Lien vers la page de modification du mot de passe #}
+                            <a href="{{path('user_edit')}}">Editer mon profil</a>
+                            {# Lien vers la page des publications #}
+                            <a href="{{path('post_index')}}">Blog de l'association</a>
+                            {# Lien vers la page de modification du mot de passe #}
+                            <a href="{{path('account_password')}}">Modifier mon mot de passe</a>
+                        </div>
+                    </div>
                 <a href="{{path('app_logout')}}"><i class="fas fa-power-off"></i><span> Déconnection</span></a>
             {% else %}
                 <a href="{{path('app_login')}}"><i class="fas fa-sign-in-alt"></i><span> Connexion</span></a>

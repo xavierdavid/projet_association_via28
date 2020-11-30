@@ -97,6 +97,7 @@ nav {
 
 .item-login-logout span {
     margin-right: 0px;
+    margin-left: 5px;
 }
 
 .item-login-logout a {
@@ -108,11 +109,15 @@ nav {
     color: #b2bdf1;
 }
 
-.dropdown small {
-    color:rgb(192, 186, 236);
+.dropdown span {
+    margin-left: 5px;
 }
 
-/* Insertion d'un pseudo-élément après le dropdown */
+.dropdown:hover {
+    color:#b2bdf1;
+}
+
+/* Insertion d'un pseudo-élément après l'élément dropdown */
 .dropdown::after {
     content: ' ';
     width: 12px;
@@ -126,6 +131,43 @@ nav {
 /* Insertion d'un image svg dans le contenu du pseudo-élément */
 .dropdown::after {
     background-image: url(../img/down-arrow.svg);
+}
+
+/* Dropdown du menu utilisateur authentifié */
+.dropdown-box {
+    position: relative;
+    display: inline-block;
+}
+
+/* Contenu de la dropdown - Caché par défaut */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 25px;
+    right: 15px;
+    cursor: pointer;
+    background-color: #333;
+    min-width: 250px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.0.5);
+    z-index: 1;
+}
+
+/* Liens à l'intérieur de la dropdown */
+.dropdown-content a {
+    color: #f1f1f1;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Changement de couleur au survol des liens de la dropdown */
+.dropdown-content a:hover {
+    background-color: rgb(83, 82, 82);
+}
+
+/* Activation de l'affichage de la dropdown */
+.active-dropdown {
+    display: block;
 }
 
 .btn-toggle-container img {

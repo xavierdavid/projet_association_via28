@@ -25,7 +25,7 @@ class PostController extends AbstractController
     protected $fileUploader;
     
     /**
-     * Constructeur de classe permettant de récupérer et d'initialiser les service SluggerInterface et FileUploader
+     * Constructeur de classe permettant de récupérer et d'initialiser les services SluggerInterface et FileUploader
      *
      * @param SluggerInterface $slugger
      * @param FileUploader $fileUploader

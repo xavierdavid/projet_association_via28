@@ -3,7 +3,14 @@
         <div class="row align-items-center">
             {# Avatar du profil #}
             <div class="col col-md-3 text-center">
-                <img src="{{asset('uploads/' ~ user.coverImage)}}" alt="Avatar de {{user.firstName|capitalize}} {{user.lastName|upper}}" class="rounded-circle mediumSizeImage mb-2">
+                {# Si une image référencée en base de données et stockée dans le fichier 'uploads' existe pour cet utilisateur #}
+                    {% if user.coverImage %}
+                        {# Alors on affiche cette image #}
+                        <img src="{{asset('uploads/' ~ user.coverImage)}}" alt="Avatar de {{user.firstName|capitalize}} {{user.lastName|upper}}" class="rounded-circle largeSizeImage img-fluid">
+                    {% else %}
+                        {# Sinon on affiche l'avatar par défaut stocké initialement dans le dossier 'img' #}
+                        <img src="{{asset('img/user_avatar.png')}}" alt="Avatar de {{user.firstName|capitalize}} {{user.lastName|upper}}" class="rounded-circle largeSizeImage img-fluid">
+                    {% endif %}
                 <br>
                 <span class="badge badge-secondary">{{user.getPosts|length}} publication(s)</span>
             </div>

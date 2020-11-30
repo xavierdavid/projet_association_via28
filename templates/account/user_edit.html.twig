@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition du profil utilisateur{% endblock %}
+
+{% block body %}
+
+    <h1>Modification de mon profil</h1>
+    <hr> 
+
+    {# Affichage des messages flash #}
+    {% for message in app.flashes('message') %}
+        <div class="alert alert-success text-center" role="alert">{{message}}</div>
+    {% endfor %}
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning text-center" role="alert">{{message}}</div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger text-center" role="alert">{{message}}</div>
+    {% endfor %}
+
+    {# Message d'accueil utilisateur #}
+    <div class="text-center mt-5">
+        <p><strong>{{app.user.firstName|capitalize}}</strong>, vous pouvez modifier votre profil utilisateur en utilisant le formulaire ci-dessous ...</p>
+    </div>
+
+    {# Affichage du formulaire d'édition du profil #}
+    <section class="container mediumFormSize">
+        {{ form_start(accountForm)}}
+            <div class="row">
+                <div class="col col-lg-4 text-center align-items-center">
+                    {# Si une image référencée en base de données et stockée dans le fichier 'uploads' existe pour cet utilisateur #}
+                    {% if user.coverImage %}
+                        {# On affiche cette image #}
+                        <img src="{{asset('uploads/' ~ user.coverImage)}}" alt="Avatar de {{user.firstName|capitalize}} {{user.lastName|upper}}" class="rounded-circle largeSizeImage img-fluid">
+                    {% else %}
+                        {# Sinon on affiche l'avatar par défaut stocké initialement dans le dossier 'img' #}
+                        <img src="{{asset('img/user_avatar.png')}}" alt="Avatar de {{user.firstName|capitalize}} {{user.lastName|upper}}" class="rounded-circle largeSizeImage img-fluid">
+                    {% endif %}
+                </div>
+                <div class="col col-lg-8 align-items-center">
+                    {{ form_row(accountForm.first_name) }}
+                    {{ form_row(accountForm.last_name) }}  
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col col-lg-4 text-center">
+                    {{ form_row(accountForm.cover_image) }}
+                </div>
+                <div class="col col-lg-8">
+                    {{ form_row(accountForm.email) }}
+                </div>
+            </div>
+
+            {{ form_row(accountForm.address) }}
+            <div class="row">
+                <div class="col col-lg-6">
+                    {{ form_row(accountForm.postal) }}
+                </div>
+                <div class="col col-lg-6">
+                    {{ form_row(accountForm.city) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-lg-6">
+                    {{ form_row(accountForm.country) }}  
+                </div>
+                <div class="col col-lg-6">
+                    {{ form_row(accountForm.phone) }} 
+                </div>
+            </div>
+            <button class="submit btn btn-secondary btn-block">Enregistrer les modifications</button>
+        {{ form_end(accountForm)}}
+    </section>
+{% endblock %}
