@@ -11,6 +11,11 @@
 <p><strong>{{app.user.firstName}}</strong>, vous êtes dans l'espace 'blog' de l'association. Echangez sur des projets, des événements à venir, publiez des contenus ... et partagez-les avec les autres adhérents.</p>
 <hr>
 
+{# Bouton d'ajout d'une nouvelle publication #}
+<div class="text-center">
+    <a href="{{path('post_new')}}" class="btn btn-primary "><i class="fas fa-plus-circle"></i> Ajouter une nouvelle publication</a>
+</div>
+
 {# Affichage de la variable 'posts' avec Twig #}
 {#{{dump(posts)}}#}
 {# Affichage des messages flash #}

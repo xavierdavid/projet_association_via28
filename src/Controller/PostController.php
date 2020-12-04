@@ -68,7 +68,7 @@ class PostController extends AbstractController
             if($imageFile) {
                 // On utilise le service FileUploader pour uploader le fichier vers le répertoire de stockage
                 $newFilename = $this->fileUploader->upload($imageFile);
-                // On met à jour la propriété imageFilename de l'entite Post pour stocker le nom du fichier dans la base de données - Hydratation de la propriété 'cover_image'
+                // On met à jour la propriété cover_image de l'entite Post pour stocker le nom du fichier dans la base de données - Hydratation de la propriété 'cover_image'
                 $post->setCoverImage($newFilename); 
             }
             // On enregistre l'entité $post à l'aide du manager de Doctrine

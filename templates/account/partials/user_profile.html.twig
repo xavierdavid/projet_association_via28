@@ -41,6 +41,10 @@
             <h2 class="text-center">Les publications de {{user.firstName|capitalize}} {{user.lastName|upper}}</h2>
         {% else %}
             <h2 class="text-center">Mes publications</h2>
+            {# Bouton d'ajout d'une nouvelle publication #}
+            <div class="text-center">
+                <a href="{{path('post_new')}}" class="btn btn-primary "><i class="fas fa-plus-circle"></i> Ajouter</a>
+            </div>
         {% endif %}
         
         {# Si l'utilisateur a publié des posts #}

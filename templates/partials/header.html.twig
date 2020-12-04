@@ -29,6 +29,12 @@
                             <a href="{{path('post_index')}}">Blog de l'association</a>
                             {# Lien vers la page de modification du mot de passe #}
                             <a href="{{path('account_password')}}">Modifier mon mot de passe</a>
+                            {# Si l'utilisateur authentifié est administrateur #}
+                            {% if is_granted('ROLE_ADMIN')  %}
+                                {# On affiche le lien vers l'espace d'administration sécurisé #}
+                                <hr>
+                                <a href="#"><i class="fas fa-cog"></i> Accéder au backoffice</a>
+                            {% endif %}
                         </div>
                     </div>
                 <a href="{{path('app_logout')}}"><i class="fas fa-power-off"></i><span> Déconnection</span></a>

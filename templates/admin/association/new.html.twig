@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une association{% endblock %}
+
+{% block body %}
+
+    <h1>Ajouter une nouvelle association</h1>
+    <a href="#">Retourner à l'accueil de l'administration</a>
+    <hr>
+
+    <p>Hello {{app.user.firstName}} ! Vous pouvez créer une nouvelle association en utilisant le formulaire ci-dessous.</p>
+    <hr>
+
+    {# Affichage du formulaire de création d'une nouvelle association #}
+    <section class="container mediumFormSize">
+        
+        {# Affichage des messages flash #}
+        {% for message in app.flashes('message') %}
+            <div class="alert alert-success text-center" role="alert">{{message}}</div>
+        {% endfor %}
+        {% for message in app.flashes('warning') %}
+            <div class="alert alert-warning text-center" role="alert">{{message}}</div>
+        {% endfor %}
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger text-center" role="alert">{{message}}</div>
+        {% endfor %}
+        
+        {# Formulaire d'inscription#}
+        {{ form_start(associationForm) }}
+            <div class="row p-2">
+                <div class="col-12 col-md-6">
+                    {{ form_row(associationForm.name)}}
+                    {{ form_row(associationForm.address) }}
+                    {{ form_row(associationForm.postal) }}
+                    {{ form_row(associationForm.city) }}
+                    {{ form_row(associationForm.phone) }} 
+                    {{ form_row(associationForm.email) }}
+                    {{ form_row(associationForm.cover_image) }}
+                    {{ form_row(associationForm.image) }} 
+                    {{ form_row(associationForm.document) }} 
+                </div>
+                <div class="col">
+                    {{ form_row(associationForm.introduction) }} 
+                    {{ form_row(associationForm.object) }} 
+                    {{ form_row(associationForm.content) }} 
+                </div>
+                 <button class="submit btn btn-secondary btn-block">Créer</button>
+            </div>
+        {{ form_end(associationForm) }}
+
+    </section>
+
+{% endblock %}
