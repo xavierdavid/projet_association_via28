@@ -53,6 +53,7 @@ class AdminAssociationController extends AbstractController
 
         // Création d'une nouvelle instance de l'entité 'Association'
         $association = new Association();
+
         // Création du formulaire de création d'une association
         $form = $this->createForm(AssociationFormType::class, $association);
         // On récupère la requête

@@ -3,16 +3,19 @@
 namespace App\Form;
 
 use App\Entity\Association;
+use App\Form\ImageFormType;
+use App\Form\DocumentFormType;
 use Symfony\Component\Form\AbstractType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AssociationFormType extends AbstractType
 {
@@ -79,28 +82,18 @@ class AssociationFormType extends AbstractType
                    'placeholder' => 'Présentez votre association', 
                ]
             ])
-            ->add('image', FileType::class, [
-                'label' => 'Ajouter des images',
-                'multiple' => true, // Ajout d'images multiples
+            ->add('image', CollectionType::class, [
+                //'label' => 'Ajouter des images',
+                'entry_type' => ImageFormType::class, // Sous-formulaire permettant d'ajouter des images
+                'allow_add' => true, // Possibilité d'ajouter de nouveaux éléments de sous-formulaire
                 'required' => false, // champ facultatif
-                'mapped' => false, // Champ non lié à la base de données
             ])
 
-            ->add('document', FileType::class,[
-                'label' => 'Joindre des documents au format PDF',
-                'multiple' => true, // Ajout de fichiers multiples
+            ->add('document', CollectionType::class,[
+                //'label' => 'Joindre des documents au format PDF',
+                'entry_type' => DocumentFormType::class, // Sous-formulaire permettant d'ajouter des documents
+                'allow_add' => true,
                 'required' => false, // Champ facultatif
-                'mapped' => false, // Champ non lié à la base de données
-                /* 'constraints' => [ // Contraintes concernant le fichier de type PDF à uploader
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'application/pdf',
-                            'application/x-pdf',
-                        ],
-                        'mimeTypesMessage' => 'Veuillez ajouter un document de type PDF SVP...',
-                    ])
-                ] */
             ])
         ;
     }
