@@ -38,12 +38,13 @@ function imageDeleteButtons() {
         deleteImageButtons[i].addEventListener('click', function() {
             // On récupère la valeur de la cible 'data-target'
             let target = this.dataset.target;
-            //console.log(target);
             // On récupère le sous-formulaire dont l'identifiant possède cette valeur cible
             let imageFormTarget = document.querySelector(target);
-            //console.log(imageFormTarget);
-            // On supprime le sous-formulaire 
-            imageFormTarget.remove();
+            // Si un sous-formulaire existe
+            if(imageFormTarget != null) {
+                // On supprime le sous-formulaire
+                imageFormTarget.remove();  
+            } 
         });
     }
 }

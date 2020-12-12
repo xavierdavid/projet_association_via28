@@ -83,16 +83,20 @@ class AssociationFormType extends AbstractType
                ]
             ])
             ->add('image', CollectionType::class, [
-                //'label' => 'Ajouter des images',
                 'entry_type' => ImageFormType::class, // Sous-formulaire permettant d'ajouter des images
+                'prototype'	=> true,
                 'allow_add' => true, // Possibilité d'ajouter de nouveaux éléments de sous-formulaire
+                'allow_delete' => true,
+                'by_reference' => false,
                 'required' => false, // champ facultatif
             ])
 
             ->add('document', CollectionType::class,[
-                //'label' => 'Joindre des documents au format PDF',
                 'entry_type' => DocumentFormType::class, // Sous-formulaire permettant d'ajouter des documents
+                'prototype'	=> true,
                 'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
                 'required' => false, // Champ facultatif
             ])
         ;

@@ -56,7 +56,7 @@
 
 {# Création de block widget spécifiques pour l'affichage du champ de sous-formulaire 'image' #}
 {% block _association_form_image_widget %}
-    <p>Vous pouvez ajouter ici des images dans le caroussel de l'association !</p>
+    <p>Ajouter des images dans le caroussel de l'association !</p>
     {{ form_widget(form)}}
     <div class="form-group">
         <button type="button" id="add-image" class="btn btn-primary">Ajouter une image</button>
@@ -78,7 +78,7 @@
                 <div class="row">
                     <div class="col">
                         {# Champ d'upload de type FileType #}
-                        {{form_widget(form.image)}}
+                        {{form_widget(form.image_file)}}
                     </div>
                     <div class="col">
                         {# Champ de libéllé de type FileType #}
@@ -95,7 +95,7 @@
 
 {# Création de block widget spécifiques pour l'affichage du champ de sous-formulaire 'document' #}
 {% block _association_form_document_widget %}
-    <p>Vous pouvez ajouter ici des documents !</p>
+    <p>Ajouter des documents PDF</p>
     {{ form_widget(form)}}
     <div class="form-group">
         <button type="button" id="add-document" class="btn btn-primary">Ajouter un document</button>
@@ -117,10 +117,10 @@
                 <div class="row">
                     <div class="col">
                         {# Champ d'upload de type FileType #}
-                        {{form_widget(form.document)}}
+                        {{form_widget(form.document_file)}}
                     </div>
                     <div class="col">
-                        {# Champ de libéllé de type FileType #}
+                        {# Champ de libellé de type FileType #}
                         {{form_widget(form.caption)}}
                     </div>
                 </div>
@@ -132,7 +132,7 @@
     </div>
 {% endblock %}
 
-{# Gestion de l'ajout et de la suppresion des prototypes de sous-formulaires #}
+{# Gestion de l'ajout et de la suppression des prototypes de sous-formulaires #}
 {% block javascripts %}
     <script src="{{asset('js/imageManagement.js')}}"></script>
     <script src="{{asset('js/documentManagement.js')}}"></script>

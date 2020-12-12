@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\DocumentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DocumentRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=DocumentRepository::class)
@@ -31,6 +32,18 @@ class Document
      * @ORM\Column(type="string", length=255)
      */
     private $caption;
+
+    private $document_file;
+
+    public function getDocumentFile()
+    {
+        return $this->document_file;
+    }
+
+    public function setDocumentFile(UploadedFile $document_file = null)
+    {
+        $this->document_file = $document_file;
+    }
 
     public function getId(): ?int
     {

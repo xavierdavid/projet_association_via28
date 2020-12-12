@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Document;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,14 +15,20 @@ class DocumentFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('document', FileType::class, [
-                //'label' => 'Ajouter des documents',
-                //'multiple' => true, // Ajout d'images multiples
+            ->add('document_file', FileType::class, [
+                'attr' => [
+                    'placeholder' => 'Rechercher'
+                ],
                 'required' => false, // champ facultatif
-                'mapped' => false, // Champ non lié à la base de données
+                'constraints' => array(
+                    new File(),
+                )
             ])
             ->add('caption', TextType::class, [
-                'label' => 'Libellé du document',
+                'label' => 'Titre du document',
+                'attr' => [
+                    'placeholder' => 'Libellé du document'
+                ]
             ])
         ;
     }

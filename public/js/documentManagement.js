@@ -37,12 +37,13 @@ function documentDeleteButtons() {
         deleteDocumentButtons[i].addEventListener('click', function() {
             // On récupère la valeur de la cible 'data-target'
             let target = this.dataset.target;
-            console.log(target);
             // On récupère le sous-formulaire dont l'identifiant possède cette valeur cible
             let documentFormTarget = document.querySelector(target);
-            //console.log(imageFormTarget);
-            // On supprime le sous-formulaire 
-            documentFormTarget.remove();
+            // Si un sous-formulaire existe
+            if(documentFormTarget != null) {
+                // On supprime le sous-formulaire
+                documentFormTarget.remove();  
+            } 
         });
     }
 }
