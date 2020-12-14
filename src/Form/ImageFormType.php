@@ -16,9 +16,9 @@ class ImageFormType extends AbstractType
     {
         $builder
             ->add('image_file', FileType::class, [
-                'attr' => [
+                /* 'attr' => [
                     'placeholder' => 'Rechercher'
-                ],
+                ], */
                 'required' => false, // champ facultatif
                 'constraints' => array(
                     new File(),
@@ -27,7 +27,7 @@ class ImageFormType extends AbstractType
             ])
             ->add('caption', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Titre de l\'image'
+                    'placeholder' => 'Titre'
                 ]
             ])
         ;

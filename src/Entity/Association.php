@@ -2,14 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\AssociationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AssociationRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AssociationRepository::class)
+ * @UniqueEntity(
+ *  fields={"name"},
+ *  message="Un autre association possède déjà ce nom, merci de le modifier."
+ * )
  */
 class Association
 {
@@ -54,6 +59,7 @@ class Association
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message = "Votre email '{{ value }}' n'est pas valide.")
      */
     private $email;
 
@@ -88,12 +94,14 @@ class Association
     private $updated_at;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="association", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="association", orphanRemoval=true, cascade={"persist"})
+     * @Assert\Valid()
      */
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="association", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="association", orphanRemoval=true, cascade={"persist"})
+     * @Assert\Valid()
      */
     private $document;
 

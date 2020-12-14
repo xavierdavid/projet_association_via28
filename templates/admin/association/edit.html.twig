@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Créer une association{% endblock %}
+{% block title %}Modifier l'association{% endblock %}
 
 {# Définition d'un thème personnalisé pour l'affichage du formulaire - 'self' représente le fichier en cours #}
 {% form_theme associationForm _self %}
 
 {% block body %}
 
-    <h1>Ajouter une nouvelle association</h1>
+    <h1>Modifier l'association : {{association.name}}</h1>
     <a href="#">Retourner à l'accueil de l'administration</a>
     <hr>
 
-    <p>Hello {{app.user.firstName}} ! Vous pouvez créer une nouvelle association en utilisant le formulaire ci-dessous.</p>
+    <p>Hello {{app.user.firstName}} ! Vous pouvez modifier les informations de votre association en utilisant le formulaire ci-dessous.</p>
     <hr>
 
     {# Affichage du formulaire de création d'une nouvelle association #}
@@ -46,6 +46,7 @@
                     {{ form_row(associationForm.content) }} 
                 </div>
             </div>
+            
             <div class="row">
                 <div class="col-12 col-md-6">
                     {{ form_row(associationForm.image) }} 
@@ -55,7 +56,7 @@
                 </div>
             </div>
             <div class="row">
-                <button class="submit btn btn-secondary btn-block">Créer</button>
+                <button class="submit btn btn-secondary btn-block">Modifier</button>
             </div>
         {{ form_end(associationForm) }}
     </section>

@@ -16,18 +16,17 @@ class DocumentFormType extends AbstractType
     {
         $builder
             ->add('document_file', FileType::class, [
-                'attr' => [
-                    'placeholder' => 'Rechercher'
-                ],
+                /* 'attr' => [
+                    'placeholder' => 'Ajout'
+                ], */
                 'required' => false, // champ facultatif
                 'constraints' => array(
                     new File(),
                 )
             ])
             ->add('caption', TextType::class, [
-                'label' => 'Titre du document',
                 'attr' => [
-                    'placeholder' => 'Libellé du document'
+                    'placeholder' => 'Titre'
                 ]
             ])
         ;

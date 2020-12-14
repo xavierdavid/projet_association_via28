@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DocumentRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=DocumentRepository::class)
@@ -30,9 +31,17 @@ class Document
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Vous devez renseigner le titre du document")
      */
     private $caption;
 
+    /**
+     * @Assert\File(
+     *   mimeTypes = {"application/pdf", "application/x-pdf"},
+     *   mimeTypesMessage = "Merci d'ajouter un document au format PDF"
+     * )
+     * @var [type]
+     */
     private $document_file;
 
     public function getDocumentFile()

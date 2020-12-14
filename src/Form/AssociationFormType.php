@@ -62,7 +62,7 @@ class AssociationFormType extends AbstractType
                 'label' => 'Ajouter un logo',
                 'multiple' => false, // Pas d'ajout multiple
                 'mapped' => false, // Champ non lié à la base de données
-                'required' => true, // champ requis
+                'required' => false, // champ facultatif
             ])
             ->add('introduction', TextareaType::class, [
                'label' => 'Slogan de l\'association',

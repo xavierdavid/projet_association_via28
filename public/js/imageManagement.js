@@ -9,8 +9,10 @@ let associationFormImage = document.querySelector('#association_form_image');
 addImage.addEventListener('click', function(event){
     // Annulation du comportement par défaut du lien
     event.preventDefault();
-    // Récupération du nombre de sous-formulaires d'images ayant pour identifiant 'form-group' présents dans l'élément parent 'association_form_image'
-    const imageIndex = associationFormImage.children.length;
+    // Récupération de l'index du sous-formulaire d'images, défini dans le champ 'input' de type 'hidden' ayant pour identifiant 'widget-image-counter' - Renvoie une chaîne caractères
+    let imageIndex = document.querySelector('#widget-image-counter').getAttribute("value");
+    // Transformation de la chaîne de caractère en nombre pour permettre l'incrémentation de l'index
+    imageIndex = Number(imageIndex);
     // Récupération du prototype des entrées représentant le 'template' des sous-formulaires
     let formImageTemplate = associationFormImage.getAttribute('data-prototype');
     // On remplace l'élément '__name__' présent dans le template par l'index préalablement récupéré
@@ -24,9 +26,21 @@ addImage.addEventListener('click', function(event){
     newImageFormGroup.innerHTML = imageIndexTemplate;
     // On injecte ce 'newFormGroup' dans son parent 'associationFormImage'
     associationFormImage.appendChild(newImageFormGroup); 
+    // Incrémentation de l'index de sous-formulaire 'image'
+    document.querySelector('#widget-image-counter').setAttribute("value", imageIndex+1 );
     // Appel de la fonction handleDeleteButtons pour supprimer les sous-formulaires
     imageDeleteButtons();
 })
+
+// Initialisation du compteur d'index de sous-formulaire
+function updateIndexCounter() {
+    // Récupération du nombre de sous-formulaires d'images ayant pour identifiant 'form-group' présents dans l'élément parent 'association_form_image' - Renvoie une chaîne de caractères
+    let counterIndex = associationFormImage.children.length;
+    // Transformation en nombre
+    counterIndex = Number(counterIndex);
+    // Actualisation du compteur d'index de sous-formulaire
+    document.querySelector('#widget-image-counter').setAttribute("value", counterIndex);
+}
 
 // Gestion de la suppression des sous-formulaires d'images
 function imageDeleteButtons() {
@@ -49,4 +63,6 @@ function imageDeleteButtons() {
     }
 }
 
+// Appel des fonctions
+updateIndexCounter();
 imageDeleteButtons();
