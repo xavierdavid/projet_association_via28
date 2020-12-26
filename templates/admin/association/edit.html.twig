@@ -28,7 +28,7 @@
             <div class="alert alert-danger text-center" role="alert">{{message|raw}}</div>
         {% endfor %}
         
-        {# Formulaire d'inscription#}
+        {# Formulaire d'édition de l'association #}
         {{ form_start(associationForm) }}
             <div class="row p-2">
                 <div class="col-12 col-md-6">
@@ -38,26 +38,42 @@
                     {{ form_row(associationForm.city) }}
                     {{ form_row(associationForm.phone) }} 
                     {{ form_row(associationForm.email) }}
+
+                    {# Affichage de l'image actuelle du logo de l'association si elle existe #}
+                    {% if association.coverImage %}
+                        <figure>
+                            <p>Logo actuel de l'association : <small>{{association.coverImage}}</small></p>
+                            <img src="{{asset('uploads/' ~ association.coverImage)}}" alt="{{association.coverImage}}" class="mediumSizeImage">
+                        </figure>
+                    {% endif %}
                     {{ form_row(associationForm.cover_image) }}
                 </div>
-                <div class="col">
+                <div class="col-md-6">
                     {{ form_row(associationForm.introduction) }} 
                     {{ form_row(associationForm.object) }} 
                     {{ form_row(associationForm.content) }} 
                 </div>
             </div>
             
+            {# Sous-formulaire des images de l'association #}
             <div class="row">
-                <div class="col-12 col-md-6">
-                    {{ form_row(associationForm.image) }} 
+                <div class="col-12">
+                    {{ form_row(associationForm.image) }}
                 </div>
-                <div class="col-12 col-md-6">
+            </div>
+
+            {# Sous-formulaire des documents de l'association #}
+            <div class="row">
+                <div class="col-12 col-md-12">
                     {{ form_row(associationForm.document) }} 
                 </div>
             </div>
+
+           {# Bouton de soumission du formulaire d'édition de l'association #}
             <div class="row">
                 <button class="submit btn btn-secondary btn-block">Modifier</button>
             </div>
+            
         {{ form_end(associationForm) }}
     </section>
 
@@ -65,7 +81,7 @@
 
 {# Création de block widget spécifiques pour l'affichage du champ de sous-formulaire 'image' #}
 {% block _association_form_image_widget %}
-    <p>Ajouter des images dans le carrousel de l'association !</p>
+    <p>Ajouter ou modifier des images dans le carrousel de l'association !</p>
     {{ form_widget(form)}}
 
     {# Champ caché permettant d'initialiser à zéro la valeur de l'index du champ de sous-formulaire 'image' #}
@@ -95,8 +111,8 @@
                         {# Messages d'erreur #}
                         {{form_errors(form.image_file)}}
                     </div>
-                    <div class="col">
-                        {# Champ de libéllé de type FileType #}
+                    <div class="col"> 
+                        {# Champ de libéllé de type TextType #}
                         {{form_widget(form.caption)}}
                         {# Messages d'erreur #}
                         {{form_errors(form.caption)}}
@@ -109,6 +125,7 @@
         </div>
     </div>
 {% endblock %}
+
 
 {# Création de block widget spécifiques pour l'affichage du champ de sous-formulaire 'document' #}
 {% block _association_form_document_widget %}
@@ -161,5 +178,4 @@
 {% block javascripts %}
     <script src="{{asset('js/imageManagement.js')}}"></script>
     <script src="{{asset('js/documentManagement.js')}}"></script>
-
 {% endblock %}

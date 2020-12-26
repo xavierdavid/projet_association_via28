@@ -10,6 +10,8 @@ use App\Form\AssociationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -87,6 +89,10 @@ class AdminAssociationController extends AbstractController
                     $newImageFilename = $this->fileUploader->upload($uploadImage);
                     // On stocke le nom de l'image en base de données en hydratant la propriété 'name' de l'entité 'Image'
                     $image->setName($newImageFilename);
+                } else {
+                    // Si aucun fichier image n'a été transmis mais que néanmoins le titre de l'image a été renseigné
+                    // Alors par défaut, on donne le nom 'undifined' à l'image (le champ 'name' étant obligatoire)
+                    $image->setName('Undefined');
                 }
             }
 
@@ -100,6 +106,10 @@ class AdminAssociationController extends AbstractController
                     $newDocumentFilename = $this->fileUploader->upload($uploadDocument);
                     // On stocke le nom de l'image en base de données en hydratant la propriété 'name' de l'entité 'Image'
                     $document->setName($newDocumentFilename);
+                } else {
+                    // Si aucun fichier document n'a été transmis mais que néanmoins le titre du document a été renseigné
+                    // Alors par défaut, on donne le nom 'undifined' au document (le champ 'name' étant obligatoire)
+                    $image->setName('Undefined');
                 }
             }
 
@@ -134,6 +144,18 @@ class AdminAssociationController extends AbstractController
     {
         // Récupération de l'association à modifier à l'aide du ParamConverter
 
+        // Récupération de la collection d'objets images de l'association stockées dans la base de données
+        $originalImageCollection = new ArrayCollection();
+        foreach ($association->getImage() as $image) {
+            $originalImageCollection->add($image);
+        }
+
+        // Récupération de la collection d'objets documents de l'association stockées dans la base de données
+        $originalDocumentCollection = new ArrayCollection();
+        foreach ($association->getDocument() as $document) {
+            $originalDocumentCollection->add($document);
+        }
+
         // Création du formulaire d'édition
         $form = $this->createForm(AssociationFormType::class, $association);
         // Récupération de la requête
@@ -151,13 +173,17 @@ class AdminAssociationController extends AbstractController
             //dd($form['cover_image']);
             // Si un fichier image est présent (Rappel : le champ est facultatif)...
             if($coverImageFile) {
-                //dd($coverImageFile);
+                // Si une ancienne image principale existe déjà pour l'association
+                if($association->getCoverImage()) {
+                    // On supprime cette ancienne image du dossier 'uploads'
+                    unlink($this->getParameter('file_directory').'/'.$association->getCoverImage());
+                }
                 // On utilise le service FileUploader pour uploader le fichier vers le répertoire de stockage
                 $newCoverImageFilename = $this->fileUploader->upload($coverImageFile);
                 // On met à jour la propriété cover_image de l'entite Association pour stocker le nom du fichier dans la base de données - Hydratation de la propriété 'cover_image'
                 $association->setCoverImage($newCoverImageFilename); 
             }
-            
+
             // On parcourt les entités 'Image' ajoutées dans les sous-formulaires CollectionType
             foreach($association->getImage() as $image) {
                 // Si un fichier image uploadé a été transmis 
@@ -168,9 +194,28 @@ class AdminAssociationController extends AbstractController
                     $newImageFilename = $this->fileUploader->upload($uploadImage);
                     // On stocke le nom de l'image en base de données en hydratant la propriété 'name' de l'entité 'Image'
                     $image->setName($newImageFilename);
-                } 
+                } else {
+                    // Si aucun fichier image n'a été transmis mais que néanmoins le titre de l'image a été renseigné
+                    // Alors par défaut, si l'image n'a pas encore de nom, on lui donne le nom 'Undefined'(le champ 'name' étant obligatoire)
+                    if($image->getName() == null) {
+                        $image->setName('Undefined');
+                    }
+                }
             }
-              
+            
+            // On parcourt la collection d'images de l'association stockée dans la base de données
+            foreach ($originalImageCollection as $image) {
+                // Si une des images de cette collection n'est pas présente dans l'un des sous-formulaires soumis 
+                if (false === $association->getImage()->contains($image)) {
+                    // Alors on supprime le fichier de cette image du dossier 'uploads' si et seulement si son nom est différent de 'Undefined'
+                    if($image->getName() !== 'Undefined') {
+                        unlink($this->getParameter('file_directory').'/'.$image->getName());
+                    }
+                    // Puis on supprime l'objet image concerné de la base de données
+                    $manager->remove($image);
+                }
+            }
+
             // On parcourt les entités 'Document' ajoutés dans les sous-formulaires CollectionType
             foreach($association->getDocument() as $document) {
                 // Si un fichier image uploadé a été transmis 
@@ -181,9 +226,28 @@ class AdminAssociationController extends AbstractController
                     $newDocumentFilename = $this->fileUploader->upload($uploadDocument);
                     // On stocke le nom de l'image en base de données en hydratant la propriété 'name' de l'entité 'Image'
                     $document->setName($newDocumentFilename);
-                } 
+                } else {
+                    // Si aucun fichier document n'a été transmis mais que néanmoins le titre du document a été renseigné
+                    // Alors par défaut, si le document n'a pas encore de nom, on lui donne le nom 'undefined' (le champ 'name' étant obligatoire)
+                    if($document->getName() == null) {
+                        $document->setName('Undefined');
+                    }
+                }
             }
-            
+
+            // On parcourt la collection de documents de l'association stockée dans la base de données
+            foreach ($originalDocumentCollection as $document) {
+                // Si un des documents de cette collection n'est pas présent dans l'un des sous-formulaires soumis 
+                if (false === $association->getDocument()->contains($document)) {
+                    // Alors on supprime le fichier de ce document du dossier 'uploads' si et seulement si son nom est différent de 'Undefined'
+                    if($document->getName() !== 'Undefined') {
+                        unlink($this->getParameter('file_directory').'/'.$document->getName());
+                    }
+                    // Puis on supprime l'objet document concerné de la base de données
+                    $manager->remove($document);
+                }
+            }
+
             // On enregistre l'entité $association à l'aide du manager de Doctrine
             $manager->persist($association);
 
@@ -202,5 +266,75 @@ class AdminAssociationController extends AbstractController
             'associationForm' => $form->createView(),
             'association' => $association
         ]);
+    }  
+    
+   /*  *
+     * Permet de supprimer une image associée à l'association à l'aide d'Ajax
+     * @Route("admin/image/{id}/delete", name="association_delete_image", methods={"DELETE"})
+     *
+     * @param Image $image
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return void
+     */
+    public function deleteImage(Image $image, Request $request, EntityManagerInterface $manager)
+    {
+        // Récupération de l'image à l'aide du ParamConverter
+        
+        // On récupère les données au format Json avec Ajax en associatif
+        $data = json_decode($request->getContent(), true);
+
+        // On vérifie si le token (envoyé en Ajax avec javascript) est valide
+        if($this->isCsrfTokenValid('delete' . $image->getId(), $data['_token'])){
+            // On récupère le nom de l'image à supprimer
+            $imageName = $image->getName();
+            // On supprime le fichier image du dossier 'uploads'
+            unlink($this->getParameter('file_directory').'/'.$imageName);
+            // On supprime l'image de la base de données
+            $manager->remove($image);
+            $manager->flush();
+            
+            // On retourne une réponse en Json
+            return new JsonResponse(['success' => 1]);
+        } else {
+            // Si le token n'est pas valide 
+            return new JsonResponse(['error' => 'Token invalide !'], 400);
+        }
     }
+
+    /**
+     * Permet de supprimer un document associé à l'association à l'aide d'Ajax
+     * @Route("admin/document/{id}/delete", name="association_delete_document", methods={"DELETE"})
+     *
+     * @param Document $document
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return void
+     */
+    public function deleteDocument(Document $document, Request $request, EntityManagerInterface $manager)
+    {
+        // Récupération de l'image à l'aide du ParamConverter
+        
+        // On récupère les données au format Json avec Ajax en associatif
+        $data = json_decode($request->getContent(), true);
+
+        // On vérifie si le token (envoyé en Ajax avec javascript) est valide
+        if($this->isCsrfTokenValid('delete' . $document->getId(), $data['_token'])){
+            // On récupère le nom du document à supprimer
+            $documentName = $document->getName();
+            // On supprime le fichier document du dossier 'uploads'
+            unlink($this->getParameter('file_directory').'/'.$documentName);
+            // On supprime le document de la base de données
+            $manager->remove($document);
+            $manager->flush();
+            
+            // On retourne une réponse en Json
+            return new JsonResponse(['success' => 1]);
+        } else {
+            // Si le token n'est pas valide 
+            return new JsonResponse(['error' => 'Token invalide !'], 400);
+        }
+    }
+
+
 }

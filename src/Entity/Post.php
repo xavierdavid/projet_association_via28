@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=PostRepository::class)
  * @UniqueEntity(
  *  fields={"title"},
- *  message="Un autre publication possède déjà ce titre, merci de le modifier."
+ *  message="Une autre publication possède déjà ce titre, merci de le modifier."
  * )
  */
 class Post

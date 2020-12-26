@@ -123,7 +123,7 @@ class PostController extends AbstractController
             $imageFile = $form['cover_image']->getData();
             // Si un nouveau fichier image a été uploadé via le formulaire (Rappel : le champ est facultatif)...
             if($imageFile) {
-                // Si une ancienne image existe déjà pour le post 
+                // Si une ancienne image principale existe déjà pour le post 
                 if($post->getCoverImage()) {
                     // On supprime cette ancienne image du dossier 'uploads'
                     unlink($this->getParameter('file_directory').'/'.$post->getCoverImage());
@@ -277,39 +277,4 @@ class PostController extends AbstractController
             'commentForm' => $form->createView() // Envoi du formulaire d'ajout de commentaire à la vue
         ]);
     }
-
-    
-
-
-    /**
-     * Permet de supprimer l'image associée à un post à l'aide d'Ajax
-     * @Route("post/{slug}/delete_cover_image", name="delete_cover_image", methods={"DELETE"})
-     * @return void
-     */
-    /* public function deleteCoverImage($slug, PostRepository $repository, Request $request, EntityManagerInterface $manager)
-    {
-        // Récupération du post à partir du Repository des Posts
-        $post = $repository->findOneBy([
-            'slug' => $slug
-        ]);
-        // On récupère l'image du post
-        $coverImage = $post->getCoverImage();
-
-        // On récupère les données au format Json avec Ajax en associatif
-        $data = json_decode($request->getContent(), true);
-
-        // On vérifie si le token (envoyé en Ajax avec javascript) est valide
-        if($this->isCsrfTokenValid('delete' . $coverImage, $data['_token'])){
-            // On supprime l'image du dossier 'uploads'
-            unlink($this->getParameter('file_directory').'/'.$coverImage);
-            // On supprime le nom de l'image de la base de données
-            $manager->remove($coverImage);
-            $manager->flush();
-            // On répond en Json
-            return new JsonResponse(['success' => 1]);
-        } else {
-            // Si le token n'est pas valide 
-            return new JsonResponse(['error' => 'Token invalide !'], 400);
-        }
-    } */
 }

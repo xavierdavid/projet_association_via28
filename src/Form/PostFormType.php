@@ -43,6 +43,7 @@ class PostFormType extends AbstractType
                 'class'=> Category::class,
                 'multiple'=> true, // Choix multiples
                 'choice_label'=>'name',
+                'expanded'=> true,
                 'label'=> 'Catégories'
             ])
             ->add('envoyer', SubmitType::class)

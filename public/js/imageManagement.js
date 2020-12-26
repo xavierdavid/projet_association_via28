@@ -1,7 +1,7 @@
 // Gestion de l'ajout et de la suppression dynamique de prototypes de sous-formulaires d'upload d'images
 
 // Récupération des éléments du DOM
-let addImage = document.querySelector('#add-image');
+let addImage = document.querySelector('#add-image'); // Bouton 'Ajouter une image'
 let associationFormImage = document.querySelector('#association_form_image');
 
 

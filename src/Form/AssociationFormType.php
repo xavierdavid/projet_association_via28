@@ -84,6 +84,7 @@ class AssociationFormType extends AbstractType
             ])
             ->add('image', CollectionType::class, [
                 'entry_type' => ImageFormType::class, // Sous-formulaire permettant d'ajouter des images
+                'entry_options' => ['label' => false],
                 'prototype'	=> true,
                 'allow_add' => true, // Possibilité d'ajouter de nouveaux éléments de sous-formulaire
                 'allow_delete' => true,
@@ -93,6 +94,7 @@ class AssociationFormType extends AbstractType
 
             ->add('document', CollectionType::class,[
                 'entry_type' => DocumentFormType::class, // Sous-formulaire permettant d'ajouter des documents
+                'entry_options' => ['label' => false],
                 'prototype'	=> true,
                 'allow_add' => true,
                 'allow_delete' => true,
