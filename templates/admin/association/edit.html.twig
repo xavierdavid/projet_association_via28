@@ -42,8 +42,8 @@
                     {# Affichage de l'image actuelle du logo de l'association si elle existe #}
                     {% if association.coverImage %}
                         <figure>
-                            <p>Logo actuel de l'association : <small>{{association.coverImage}}</small></p>
-                            <img src="{{asset('uploads/' ~ association.coverImage)}}" alt="{{association.coverImage}}" class="mediumSizeImage">
+                            <p>Logo actuel de l'association :</p>
+                            <img src="{{asset('uploads/' ~ association.coverImage)}}" alt="{{association.coverImage}}" class="smallSizeImage">
                         </figure>
                     {% endif %}
                     {{ form_row(associationForm.cover_image) }}
@@ -54,6 +54,25 @@
                     {{ form_row(associationForm.content) }} 
                 </div>
             </div>
+
+            {# Affichage des images actuelles du carrousel de l'association si elles existent #}
+            {% if association.image %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Images actuelles de l'association : </p>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row align-items-center">
+                            {% for image in association.image %}
+                                <figure class="p-3">
+                                    <img src="{{asset('uploads/' ~ image.name)}}" alt="{{image.caption}}" class="smallSizeImage">
+                                </figure>
+                                <div class="mr-4"><em>{{image.caption}}</em></div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
             
             {# Sous-formulaire des images de l'association #}
             <div class="row">
@@ -81,7 +100,7 @@
 
 {# Création de block widget spécifiques pour l'affichage du champ de sous-formulaire 'image' #}
 {% block _association_form_image_widget %}
-    <p>Ajouter ou modifier des images dans le carrousel de l'association !</p>
+    <p><strong>Ajouter ou modifier des images dans le carrousel de l'association !</strong></p>
     {{ form_widget(form)}}
 
     {# Champ caché permettant d'initialiser à zéro la valeur de l'index du champ de sous-formulaire 'image' #}
@@ -129,7 +148,7 @@
 
 {# Création de block widget spécifiques pour l'affichage du champ de sous-formulaire 'document' #}
 {% block _association_form_document_widget %}
-    <p>Ajouter des documents PDF</p>
+    <p><strong>Ajouter des documents PDF</strong></p>
     {{ form_widget(form)}}
 
     {# Champ caché permettant d'initialiser à zéro la valeur de l'index du champ de sous-formulaire 'document' #}
