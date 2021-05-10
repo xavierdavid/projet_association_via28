@@ -14,8 +14,10 @@ class HomeController extends AbstractController
      */
     public function index(Mail $mail)
     {
-
-        return $this->render('home/index.html.twig', [   
+        // Récupération de l'utilisateur authentifié
+        $user = $this->getUser();
+        return $this->render('home/index.html.twig', [ 
+            'user'=>$user  
         ]);
     }
 }

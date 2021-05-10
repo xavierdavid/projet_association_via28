@@ -86,7 +86,8 @@ class PostController extends AbstractController
 
         return $this->render('post/new.html.twig', [
             'post' => $post,
-            'postForm' => $form->createView() // Envoi du formulaire de création de post à la vue
+            'postForm' => $form->createView(), // Envoi du formulaire de création de post à la vue
+            'user' => $user
         ]);
     }
 

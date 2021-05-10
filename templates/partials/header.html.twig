@@ -26,7 +26,7 @@
                             <img src="{{asset('uploads/' ~ user.coverImage)}}" alt="Avatar de {{user.firstName|capitalize}} {{user.lastName|upper}}" class="rounded-circle verySmallSizeImage img-fluid">
                         </div>
                     {% else %}
-                    {# Sinon on affiche l'avatar par défaut stocké initialement dans le dossier 'img' #}
+                    {# Sinon on affiche par défaut une icône avatar #}
                         <i class="far fa-user"></i>
                     {% endif %}
                     {# On affiche le prénom de l'utilisateur #}
