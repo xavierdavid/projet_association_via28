@@ -147,7 +147,8 @@ class PostController extends AbstractController
 
         return $this->render('post/edit.html.twig', [
             'post' => $post,
-            'postForm' => $form->createView()
+            'postForm' => $form->createView(),
+            'user' => $user
         ]);
     }
 
@@ -188,6 +189,8 @@ class PostController extends AbstractController
      */
     public function index(Request $request, PaginatorInterface $paginator)
     {
+        // Récupération de l'utilisateur authentifié
+        $user = $this->getUser();
         // Récupération les données des posts, par date de création et tri décroissant à l'aide de l'ORM doctrine et du repository des posts
         $data = $this->getDoctrine()->getRepository(Post::class)->findBy([], ['created_at' => 'desc']);
 
@@ -203,7 +206,8 @@ class PostController extends AbstractController
 
         // Envoi des données à la vue
         return $this->render('post/index.html.twig', [
-            'posts' => $posts
+            'posts' => $posts,
+            'user' => $user
             ]);
         }
 
@@ -274,7 +278,8 @@ class PostController extends AbstractController
 
         return $this->render('post/show.html.twig', [
             'post' => $post,
-            'commentForm' => $form->createView() // Envoi du formulaire d'ajout de commentaire à la vue
+            'commentForm' => $form->createView(), // Envoi du formulaire d'ajout de commentaire à la vue
+            'user' => $user
         ]);
     }
 }

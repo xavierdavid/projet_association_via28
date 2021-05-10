@@ -16,27 +16,43 @@
 
         {# Items de login et logout #}
         <div class="item-login-logout">
+                <a href="{{path('account')}}" class="dropdown">
+            {# Si un utilisateur est authentifié #}
             {% if app.user %}
-                <a href="{{path('account')}}" class="dropdown"><i class="far fa-user"></i><span> {{app.user.firstName}}</span></a>
-                    <div class="dropdown-box">
-                        {# Dropdown menu #}
-                        <div class="dropdown-content">
-                            {# Lien vers la page du compte utilisateur #}
-                            <a href="{{path('account')}}">Mon compte</a>
-                            {# Lien vers la page de modification du mot de passe #}
-                            <a href="{{path('user_edit')}}">Editer mon profil</a>
-                            {# Lien vers la page des publications #}
-                            <a href="{{path('post_index')}}">Blog de l'association</a>
-                            {# Lien vers la page de modification du mot de passe #}
-                            <a href="{{path('account_password')}}">Modifier mon mot de passe</a>
-                            {# Si l'utilisateur authentifié est administrateur #}
-                            {% if is_granted('ROLE_ADMIN')  %}
-                                {# On affiche le lien vers l'espace d'administration sécurisé #}
-                                <hr>
-                                <a href="#"><i class="fas fa-cog"></i> Accéder au backoffice</a>
-                            {% endif %}
+                    {# Si une image référencée en base de données et stockée dans le fichier 'uploads' existe pour cet utilisateur #}
+                    {% if user.coverImage is not null %}
+                        {# On affiche cette image #}
+                        <div class="item-user-image">
+                            <img src="{{asset('uploads/' ~ user.coverImage)}}" alt="Avatar de {{user.firstName|capitalize}} {{user.lastName|upper}}" class="rounded-circle verySmallSizeImage img-fluid">
                         </div>
+                    {% else %}
+                    {# Sinon on affiche l'avatar par défaut stocké initialement dans le dossier 'img' #}
+                        <i class="far fa-user"></i>
+                    {% endif %}
+                    {# On affiche le prénom de l'utilisateur #}
+                    <span> {{app.user.firstName}}</span>
+                </a>
+                {# Elément dropdown #}
+                <div class="dropdown-box">
+                    {# Dropdown menu #}
+                    <div class="dropdown-content">
+                        {# Lien vers la page du compte utilisateur #}
+                        <a href="{{path('account')}}">Mon compte</a>
+                        {# Lien vers la page de modification du mot de passe #}
+                        <a href="{{path('user_edit')}}">Editer mon profil</a>
+                        {# Lien vers la page des publications #}
+                        <a href="{{path('post_index')}}">Blog de l'association</a>
+                        {# Lien vers la page de modification du mot de passe #}
+                        <a href="{{path('account_password')}}">Modifier mon mot de passe</a>
+                        {# Si l'utilisateur authentifié est administrateur #}
+                        {% if is_granted('ROLE_ADMIN')  %}
+                            {# On affiche le lien vers l'espace d'administration sécurisé #}
+                            <hr>
+                            <a href="#"><i class="fas fa-cog"></i> Accéder au backoffice</a>
+                        {% endif %}
                     </div>
+                </div>
+                {# Liens de connexion / déconnexion / inscription #}
                 <a href="{{path('app_logout')}}"><i class="fas fa-power-off"></i><span> Déconnection</span></a>
             {% else %}
                 <a href="{{path('app_login')}}"><i class="fas fa-sign-in-alt"></i><span> Connexion</span></a>

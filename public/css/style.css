@@ -52,10 +52,15 @@ h3 {
     max-width: 60px;
 }
 
+.verySmallSizeImage {
+    max-width: 40px;
+}
+
 /*****************************************************/
 /***    Header - Barre de navigation responsive    ***/
 /*****************************************************/
 nav {
+    position: relative;
     height: 70px;
     width: 100%;
     background: #333;
@@ -90,8 +95,9 @@ nav {
 
 .item-login-logout {
     position: absolute;
-    top: 25px;
     right: 15px;
+    top: 50%; /* poussé de la moitié de hauteur du référent */
+    transform: translateY(-50%); /* tiré de la moitié de sa propre hauteur */
     cursor: pointer;
 }
 
@@ -107,6 +113,11 @@ nav {
 
 .item-login-logout a:hover {
     color: #b2bdf1;
+}
+
+/* Image de l'utilisateur */
+.item-user-image {
+    display: inline-block;
 }
 
 .dropdown span {
@@ -149,7 +160,6 @@ nav {
     background-color: #333;
     min-width: 250px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.0.5);
-    z-index: 1;
 }
 
 /* Liens à l'intérieur de la dropdown */

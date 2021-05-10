@@ -58,7 +58,8 @@ class AccountPasswordController extends AbstractController
         }
         
         return $this->render('account/update_password.html.twig', [
-           'updatePasswordForm' => $form->createView() // Envoi du formulaire à la vue 
+           'updatePasswordForm' => $form->createView(), // Envoi du formulaire à la vue 
+           'user' => $user
         ]);
     }
 }

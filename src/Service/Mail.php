@@ -11,8 +11,8 @@ class Mail
 {
 
     // Initialisatisation des clé de l'API de MailJet
-    private $api_key = 'ma_cle_principale';
-    private $api_key_secret = 'ma_cle_secrete';
+   private $api_key = '04a519e07e603468a821100c678095bd';
+   private $api_key_secret = '4df7de4a91c09274d6d44a813765979f';
 
     /**
      * @var Environment
